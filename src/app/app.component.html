@@ -8,7 +8,7 @@
   >
   </app-weather-search>
 
-  <div style="display: flex; flex-wrap: wrap;">
+  <div class="card-list">
     <ng-container *ngIf="myLocation">
       <app-weather-widget [city]="myLocation" class="my-location"></app-weather-widget>
     </ng-container>
