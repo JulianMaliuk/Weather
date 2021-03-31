@@ -1,0 +1,49 @@
+<div class="weather-card">
+  <mat-card *ngIf="isLoaded else loading" class="mat-elevation-z5">
+    <mat-card-header>
+      <mat-card-title>
+        {{ weather.name }}
+        <button *ngIf="canRemove" mat-icon-button color="warn" aria-label="Example icon button with a heart icon" (click)="removeCity(weather.id)">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" (click)="fetchWeather()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </mat-card-title>
+      <mat-card-subtitle>Time of data forecasted: {{ weather.dt * 1000 | date:'medium' }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="flex-row">
+        <div class="temp">
+          <span class="big-text">{{ weather.main.temp | number:'1.0-0' }} °C</span>
+          <span>Feels like </span>
+          <span>{{ weather.main.feels_like | number:'1.0-0' }} °C</span>
+        </div>
+        <div class="outlook">
+          <img src='http://openweathermap.org/img/wn/{{ weather.weather[0].icon }}@2x.png' />
+          <span>{{ weather.weather[0].description }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <ng-template #loading>
+    <mat-card class="mat-elevation-z5">
+      <ngx-skeleton-loader animation="progress" [theme]="{
+        'border-radius': '0',
+        height: '50px',
+        'border-radius': '5px',
+        'margin-bottom': '10px'
+      }"></ngx-skeleton-loader>
+      <mat-card-content>
+        <div class="flex-row">
+          <ngx-skeleton-loader animation="progress" [theme]="{
+            height: '75px'
+          }"></ngx-skeleton-loader>
+          <ngx-skeleton-loader animation="progress" [theme]="{
+            height: '75px'
+          }"></ngx-skeleton-loader>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+</div>

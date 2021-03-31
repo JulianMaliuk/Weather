@@ -1,0 +1,23 @@
+<div class="search">
+  <form class="search-form">
+    <mat-form-field class="full-width">
+      <mat-label>Search City</mat-label>
+      <input type="text"
+        aria-label="Search City"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)='selected($event.option.id)'>
+        <mat-option disabled class="loading" *ngIf="isLoading">
+          <mat-spinner diameter="35"></mat-spinner>
+        </mat-option>
+        <mat-option disabled class="loading" *ngIf="!isLoading && (filteredOptions | async)?.length < 1">
+          No matches
+        </mat-option>
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" [id]="option.id">
+          {{option.name}}, {{option.sys.country}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>

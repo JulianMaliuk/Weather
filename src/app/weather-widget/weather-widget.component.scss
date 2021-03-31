@@ -1,0 +1,71 @@
+:host {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+
+  @media screen and (min-width: 650px) {
+    max-width: 50%;
+  }
+  @media screen and (min-width: 900px) {
+    max-width: 33%;
+  }
+  @media screen and (min-width: 1150px) {
+    max-width: 25%;
+  }
+}
+
+.weather-card {
+  width: 100%;
+  display: grid;
+  margin: 6px;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    transform: scale(1.008);
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+
+    > div, ngx-skeleton-loader {
+      flex: 50%;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    > .outlook {
+        color: black;
+        background: rgba(0,0,0,0.1);
+        text-align: center;
+
+        span {
+          display: flex;
+          justify-content: center;
+        }
+
+        img {
+          width: 70px;
+        }
+      }
+
+    > .temp {
+        background: lightblue;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .big-text {
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+
+    .image {
+      height: 80px;
+    }
+  }
+}
