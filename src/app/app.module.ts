@@ -24,6 +24,7 @@ import { WeatherSearchComponent } from './weather-search/weather-search.componen
 import { citiesReducer } from 'src/store/reducers/weather.reducer';
 import { environment } from 'src/environments/environment';
 import { metaReducers } from 'src/store/reducers/meta.reducers';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { metaReducers } from 'src/store/reducers/meta.reducers';
     MatExpansionModule,
     MatProgressSpinnerModule,
     NgxSkeletonLoaderModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]
