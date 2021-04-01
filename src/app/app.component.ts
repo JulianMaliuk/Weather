@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ILocation } from '../interfaces/location.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +11,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AppComponent implements OnInit {
   myLocation: ILocation;
-  savedCities: number[] = [];
+  cities$: Observable<number[]>;
 
   constructor(
     private _snackBar: MatSnackBar,
-  ) {}
+    private store: Store<{ cities: number[] }>
+  ) {
+    this.cities$ = store.select('cities');
+  }
 
   ngOnInit(): void {
-    this.savedCities = JSON.parse(localStorage.getItem('savedCities') || '[]');
     this.getLocalWeather();
   }
 
@@ -28,16 +32,6 @@ export class AppComponent implements OnInit {
         duration: 2000,
       });
     }
-  }
-
-  addCity(city: any): void {
-    this.savedCities.push(city);
-    localStorage.setItem('savedCities', JSON.stringify(this.savedCities));
-  }
-
-  removeCity(city: number): void {
-    this.savedCities = this.savedCities.filter(c => city !== c);
-    localStorage.setItem('savedCities', JSON.stringify(this.savedCities));
   }
 
   getPosition(): Promise<any> {

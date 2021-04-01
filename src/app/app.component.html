@@ -3,17 +3,14 @@
     <img src="https://i.pinimg.com/originals/d9/d2/82/d9d282bfd1842ef06e706a12679e7e49.jpg" alt="">
     Weather
   </div>
-  <app-weather-search
-    (newCityEvent)="addCity($event)"
-  >
-  </app-weather-search>
+  <app-weather-search></app-weather-search>
 
   <div class="card-list">
     <ng-container *ngIf="myLocation">
       <app-weather-widget [city]="myLocation" class="my-location"></app-weather-widget>
     </ng-container>
-    <ng-container *ngFor="let city of savedCities">
-      <app-weather-widget [city]="city" [canRemove]="true" (removeCityEvent)="removeCity($event)"></app-weather-widget>
+    <ng-container *ngFor="let city of cities$ | async">
+      <app-weather-widget [city]="city" [canRemove]="true"></app-weather-widget>
     </ng-container>
   </div>
 </div>

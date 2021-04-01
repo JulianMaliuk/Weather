@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,10 +14,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import { AppComponent } from './app.component';
 import { WeatherWidgetComponent } from './weather-widget/weather-widget.component';
 import { WeatherSearchComponent } from './weather-search/weather-search.component';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { citiesReducer } from 'src/store/reducers/weather.reducer';
+import { environment } from 'src/environments/environment';
+import { metaReducers } from 'src/store/reducers/meta.reducers';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,11 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     WeatherSearchComponent,
   ],
   imports: [
+    StoreModule.forRoot({ cities: citiesReducer} , { metaReducers: metaReducers }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,

@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ILocation } from 'src/interfaces/location.interface';
 import { IWeather } from 'src/interfaces/weather.interface';
 import { WeatherService } from '../weather.service';
+import * as cityActions from 'src/store/actions/weather.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-weather-widget',
@@ -14,9 +16,11 @@ export class WeatherWidgetComponent implements OnInit {
   weather: IWeather;
   @Input() city: number | string | ILocation;
   @Input() canRemove = false;
-  @Output() removeCityEvent = new EventEmitter<number>();
 
-  constructor(private weatherServive: WeatherService) { }
+  constructor(
+    private weatherServive: WeatherService,
+    private store: Store<{ cities: number[] }>
+  ) { }
 
   ngOnInit(): void {
     this.fetchWeather();
@@ -30,7 +34,7 @@ export class WeatherWidgetComponent implements OnInit {
   }
 
   removeCity(city: number): void {
-    this.removeCityEvent.emit(city);
+    this.store.dispatch(cityActions.remove({ city: city }));
   }
 }
 

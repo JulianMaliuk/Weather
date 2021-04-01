@@ -1,10 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { IFindCity } from 'src/interfaces/find-city.interface';
 import { IWeather } from 'src/interfaces/weather.interface';
 import { WeatherService } from '../weather.service';
+import * as cityActions from 'src/store/actions/weather.actions';
 
 @Component({
   selector: 'app-weather-search',
@@ -12,12 +14,14 @@ import { WeatherService } from '../weather.service';
   styleUrls: ['./weather-search.component.scss']
 })
 export class WeatherSearchComponent implements OnInit {
-  @Output() newCityEvent = new EventEmitter<number>();
   myControl = new FormControl();
   filteredOptions: Observable<IWeather[]>;
   isLoading = false;
 
-  constructor(private weatherServive: WeatherService) { }
+  constructor(
+    private weatherServive: WeatherService,
+    private store: Store<{ cities: number[] }>
+  ) { }
 
   ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -38,7 +42,6 @@ export class WeatherSearchComponent implements OnInit {
 
   selected(cityId: number): void {
     this.myControl.setValue('');
-    console.log(`selected ${cityId}`);
-    this.newCityEvent.emit(cityId);
+    this.store.dispatch(cityActions.add({ city: cityId }));
   }
 }
